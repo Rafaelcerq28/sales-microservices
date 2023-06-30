@@ -1,0 +1,49 @@
+Product:
+
+localhost:8000
+GET/POST
+localhost:8000/product
+{
+    "name": "Product X",
+    "description": "This is a fantastic product",
+    "brand": "ABC Corporation",
+    "maxQuantity": 100,
+    "minQuantity": 10,
+    "quantity": 50,
+    "weight": 2.5
+}
+GET
+localhost:8000/product/1001
+PUT
+localhost:8000/product/1001/increase-stock
+{
+    "quantity":10,
+    "description":"new products"
+}
+PUT
+localhost:8000/product/1001/decrease-stock
+{
+    "quantity":10,
+    "description":"sold"
+}
+GET
+localhost:8000/product/1001inventory-movement
+------------------------------------------------------
+Sales:
+localhost:8100/teste
+
+**No futuro o carrinho deve checar se o usuario existe antes de por os produtos nele
+/add-to-cart/{user_id}/{product_id}
+/remove-from-cart/{user_id}/{product_id}
+/see-cart/{user_id}
+------------------------------------------------------
+User:
+
+-----------------------------------------------------
+PORTAS:
+
+Product microservice: 8000
+sales microservice: 8100
+user microservice: 8200
+eureka naming server: 8761
+api gateway: 8765
