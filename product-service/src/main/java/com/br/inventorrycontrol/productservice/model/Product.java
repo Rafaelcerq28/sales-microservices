@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,7 +52,7 @@ public class Product {
     
     private double weight;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonIgnore
     private List<InventoryMovement> inventoryMovements;
 

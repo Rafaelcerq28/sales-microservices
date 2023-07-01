@@ -89,21 +89,22 @@ public class SalesService {
         for (Cart cart : itensInCart) {
             ResponseEntity<Product> responseEntity;
             try {
-            //map com a informacao a ser colocada no {id}
-            HashMap<String, Long> uriVariables = new HashMap<>();
-            uriVariables.put("id",cart.getProductId());
+                //map com a informacao a ser colocada no {id}
+                HashMap<String, Long> uriVariables = new HashMap<>();
+                uriVariables.put("id",cart.getProductId());
+                
+                //ps*** essa funcao e so para validar se o produto existe
+                //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
+                responseEntity = new RestTemplate().
+                getForEntity("http://localhost:8000/product/{id}",
+                Product.class, uriVariables);     
             
-            //ps*** essa funcao e so para validar se o produto existe
-            //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
-            responseEntity = new RestTemplate().
-            getForEntity("http://localhost:8000/product/{id}",
-            Product.class, uriVariables);     
-            
-
             } catch (Exception e) {
                 continue;
             }
+
             Product productToAdd = responseEntity.getBody();
+            productToAdd.setQuantity(cart.getQuantity());
             products.add(productToAdd);
         }
         

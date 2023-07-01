@@ -12,7 +12,7 @@ import com.br.inventorycontrol.productsales.model.Cart;
 
 import jakarta.transaction.Transactional;
 
-//this annotation is necessary to make the delete itens on cart
+//this annotation is necessary to delete itens on cart
 @Transactional
 @Repository
 public interface CartRepository extends JpaRepository<Cart,Long>{
