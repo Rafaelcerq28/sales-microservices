@@ -112,6 +112,10 @@ public class SalesService {
         //Fim do utilizar no futuro
     }
 
-
+    /*
+     * Criar um metodo de checkout e finish and pay
+     * Colocar preco no produto no ProductService
+     * checkout deve mostrar o preco de cada produto e o valor de cada um deles e o valor total ao final 
+     */
 
 }
