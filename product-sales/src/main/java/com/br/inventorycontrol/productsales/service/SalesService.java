@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.inventorycontrol.productsales.model.Cart;
+import com.br.inventorycontrol.productsales.model.Checkout;
 import com.br.inventorycontrol.productsales.model.Product;
 import com.br.inventorycontrol.productsales.repository.CartRepository;
 
@@ -76,11 +77,6 @@ public class SalesService {
     }
 
     public List<Product> getAllFromCart(Long userId){
-            /*
-             * busco no banco todos os itens do usuario
-             * faco um for pegando no outro servico cada um dos produtos e salvando em uma lista 
-             * atualizar a quantidade para o valor que o cliente possui no carrinho
-             */
 
         List<Cart> itensInCart = cartRepository.findByUserId(userId);
         
@@ -109,13 +105,26 @@ public class SalesService {
         }
         
         return products;
-        //Fim do utilizar no futuro
+    }
+
+    public ResponseEntity<Checkout> checkout(Long userId){
+        List<Product> products = getAllFromCart(userId);
+        double total = 0;
+
+        for (Product product : products) {
+            total += (product.getPrice() * product.getQuantity());
+        }
+        
+        Checkout checkout = new Checkout(userId, products, total);
+
+        return ResponseEntity.ok().body(checkout);
     }
 
     /*
-     * Criar um metodo de checkout e finish and pay
-     * Colocar preco no produto no ProductService
-     * checkout deve mostrar o preco de cada produto e o valor de cada um deles e o valor total ao final 
+     * criar metodo finish and pay
+     * colocar esse metodo para baixar o estoque na api ProductService
+     * limpar o carrinho do usuario
+     * configurar o metodo do checkout para informar o produto indisponivel
      */
 
 }

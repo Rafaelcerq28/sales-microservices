@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.inventorycontrol.productsales.model.Cart;
+import com.br.inventorycontrol.productsales.model.Checkout;
 import com.br.inventorycontrol.productsales.model.Product;
 import com.br.inventorycontrol.productsales.service.SalesService;
 
@@ -44,7 +45,10 @@ public class SalesController {
         @PathVariable (value = "product_id") Long productId){
 
         return salesService.deleteFromCart(userId,productId);
+    }
 
-}
-
+    @GetMapping("/cart/{user_id}/checkout")
+    public ResponseEntity<Checkout> checkout(@PathVariable(value="user_id") Long userId){
+        return salesService.checkout(userId);
+    }
 }

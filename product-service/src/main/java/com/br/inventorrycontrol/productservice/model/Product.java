@@ -52,6 +52,8 @@ public class Product {
     
     private double weight;
 
+    private double price;
+
     @OneToMany(mappedBy = "product", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonIgnore
     private List<InventoryMovement> inventoryMovements;
@@ -118,6 +120,13 @@ public class Product {
     public void setInventoryMovements(List<InventoryMovement> inventoryMovements) {
         this.inventoryMovements = inventoryMovements;
     }    
+
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
     
     @Override
     public String toString() {

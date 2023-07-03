@@ -5,15 +5,18 @@ public class Product {
     private String name;
     private String brand;
     private int quantity;
+    private double price;
 
     
-    public Product(Long id, String name, String brand, int quantity) {
+    public Product(Long id, String name, String brand, int quantity, double price) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.quantity = quantity;
+        this.price = price;
     }
 
+    
     public Product() {
     }
 
@@ -42,6 +45,16 @@ public class Product {
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+
+    public double getPrice() {
+        return price;
+    }
+
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 
