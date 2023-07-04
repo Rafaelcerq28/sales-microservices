@@ -122,9 +122,41 @@ public class SalesService {
 
     /*
      * criar metodo finish and pay
+     * CRIAR UMA CLASSE INVENTORY MOVEMENT
      * colocar esse metodo para baixar o estoque na api ProductService
      * limpar o carrinho do usuario
      * configurar o metodo do checkout para informar o produto indisponivel
      */
 
+    public String finishAndPay(Long userId){
+
+        Long productId = (long) 1001;
+
+        ResponseEntity<Product> responseEntity;
+        try {
+            //map com a informacao a ser colocada no {id}
+            HashMap<String, Long> uriVariables = new HashMap<>();
+            uriVariables.put("id",productId);
+            
+            //ps*** essa funcao e so para validar se o produto existe
+            //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
+                responseEntity = new RestTemplate().
+                getForEntity("http://localhost:8000/product/{id}",
+                Product.class, uriVariables);           
+        } catch (Exception e) {
+            responseEntity = ResponseEntity.notFound().build();
+        }
+
+        /*
+        * InventoryMovement inventoryMovement = new InventoryMovement();
+        inventoryMovement.setId(createResponse.getBody().getId());
+        String resourceUrl = 
+        URI + '/' + createResponse.getBody().getId();
+        HttpEntity<Foo> requestUpdate = new HttpEntity<>(inventoryMovement, headers);
+        RestTemplate.exchange(resourceUrl, HttpMethod.PUT, requestUpdate, Void.class);
+        */
+
+        return "x";
+    }
+     
 }

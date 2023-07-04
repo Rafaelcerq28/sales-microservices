@@ -51,4 +51,9 @@ public class SalesController {
     public ResponseEntity<Checkout> checkout(@PathVariable(value="user_id") Long userId){
         return salesService.checkout(userId);
     }
+
+    @GetMapping("/cart/{user_id}/payment")
+    public void finishAndPay(@PathVariable(value = "user_id") Long userId){
+        salesService.finishAndPay(userId);
+    }
 }
