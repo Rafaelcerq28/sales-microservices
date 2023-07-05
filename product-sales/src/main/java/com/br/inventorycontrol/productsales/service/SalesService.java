@@ -157,16 +157,6 @@ public class SalesService {
             responseEntity = ResponseEntity.notFound().build();
         }
 
-        /*
-        * InventoryMovement inventoryMovement = new InventoryMovement();
-
-        String resourceUrl = 
-        URI + '/' + createResponse.getBody().getId();
-        HttpEntity<Foo> requestUpdate = new HttpEntity<>(inventoryMovement, headers);
-        RestTemplate.exchange(resourceUrl, HttpMethod.PUT, requestUpdate, Void.class);
-        */
-
-
         return "passou";
     }
 }
