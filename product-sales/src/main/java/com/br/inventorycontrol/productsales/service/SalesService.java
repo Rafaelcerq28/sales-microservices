@@ -10,6 +10,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.inventorycontrol.productsales.model.Cart;
 import com.br.inventorycontrol.productsales.model.Checkout;
+import com.br.inventorycontrol.productsales.model.InventoryMovement;
 import com.br.inventorycontrol.productsales.model.Product;
 import com.br.inventorycontrol.productsales.repository.CartRepository;
 
@@ -121,42 +123,50 @@ public class SalesService {
     }
 
     /*
-     * criar metodo finish and pay
-     * CRIAR UMA CLASSE INVENTORY MOVEMENT
-     * colocar esse metodo para baixar o estoque na api ProductService
+     * criar metodo finish and pay - DONE
+     * CRIAR UMA CLASSE INVENTORY MOVEMENT - DONE
+     * colocar esse metodo para baixar o estoque na api ProductService - DONE
+     * Puxar os itens do carrinho
+     * Criar um for para ir baixando item por item do carrinho 
      * limpar o carrinho do usuario
-     * configurar o metodo do checkout para informar o produto indisponivel
+     * configurar o metodo do checkout para informar se o produto esta indisponivel
      */
 
     public String finishAndPay(Long userId){
 
         Long productId = (long) 1001;
 
-        ResponseEntity<Product> responseEntity;
+        ResponseEntity<InventoryMovement> responseEntity;
         try {
+            HttpHeaders headers = new HttpHeaders();                  
+            headers.setContentType(MediaType.APPLICATION_JSON);//headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             //map com a informacao a ser colocada no {id}
             HashMap<String, Long> uriVariables = new HashMap<>();
             uriVariables.put("id",productId);
-            
+
+            InventoryMovement inventoryMovement = new InventoryMovement(10,"teste");
+            HttpEntity<InventoryMovement> requestUpdate = new HttpEntity<>(inventoryMovement, headers);
             //ps*** essa funcao e so para validar se o produto existe
             //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
                 responseEntity = new RestTemplate().
-                getForEntity("http://localhost:8000/product/{id}",
-                Product.class, uriVariables);           
+                exchange("http://localhost:8000/product/{id}/decrease-stock",
+                HttpMethod.PUT,
+                requestUpdate,
+                InventoryMovement.class, uriVariables);           
         } catch (Exception e) {
             responseEntity = ResponseEntity.notFound().build();
         }
 
         /*
         * InventoryMovement inventoryMovement = new InventoryMovement();
-        inventoryMovement.setId(createResponse.getBody().getId());
+
         String resourceUrl = 
         URI + '/' + createResponse.getBody().getId();
         HttpEntity<Foo> requestUpdate = new HttpEntity<>(inventoryMovement, headers);
         RestTemplate.exchange(resourceUrl, HttpMethod.PUT, requestUpdate, Void.class);
         */
 
-        return "x";
+
+        return "passou";
     }
-     
 }

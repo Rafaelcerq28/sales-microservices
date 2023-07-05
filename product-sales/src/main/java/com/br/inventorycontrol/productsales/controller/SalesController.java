@@ -53,7 +53,7 @@ public class SalesController {
     }
 
     @GetMapping("/cart/{user_id}/payment")
-    public void finishAndPay(@PathVariable(value = "user_id") Long userId){
-        salesService.finishAndPay(userId);
+    public String finishAndPay(@PathVariable(value = "user_id") Long userId){
+        return salesService.finishAndPay(userId);
     }
 }
