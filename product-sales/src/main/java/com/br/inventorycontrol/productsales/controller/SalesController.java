@@ -24,8 +24,8 @@ public class SalesController {
 
     SalesService salesService;
 
-    //revisar essa url para: /add-to-cart/user/{user_id}/produto/{product_id}/quantidade/{quantity} ?
-    @PostMapping("/cart/{user_id}/{product_id}/{quantity}")
+    //revisar essa url para: /carts/user/{user_id}/produto/{product_id}/quantidade/{quantity} ?
+    @PostMapping("/carts/{user_id}/product/{product_id}/quantity/{quantity}")
     public ResponseEntity<Cart> addToCart(
         @PathVariable(value = "user_id")Long userId, 
         @PathVariable(value="product_id") Long productId,
@@ -34,12 +34,12 @@ public class SalesController {
         return salesService.addToCart(userId,productId,quantity);
     }
 
-    @GetMapping("/cart/{user_id}")
+    @GetMapping("/carts/{user_id}")
     public List<Product> getAllFromCart(@PathVariable(value="user_id") Long userId){
         return salesService.getAllFromCart(userId);
     }
 
-    @DeleteMapping("/cart/{user_id}/{product_id}")
+    @DeleteMapping("/carts/{user_id}/product/{product_id}")
     public ResponseEntity<Cart> deleteFromCart(
         @PathVariable(value = "user_id") Long userId,
         @PathVariable (value = "product_id") Long productId){
@@ -47,12 +47,12 @@ public class SalesController {
         return salesService.deleteFromCart(userId,productId);
     }
 
-    @GetMapping("/cart/{user_id}/checkout")
+    @GetMapping("/carts/{user_id}/checkout")
     public ResponseEntity<Checkout> checkout(@PathVariable(value="user_id") Long userId){
         return salesService.checkout(userId);
     }
 
-    @GetMapping("/cart/{user_id}/payment")
+    @GetMapping("/carts/{user_id}/payment")
     public String finishAndPay(@PathVariable(value = "user_id") Long userId){
         return salesService.finishAndPay(userId);
     }
