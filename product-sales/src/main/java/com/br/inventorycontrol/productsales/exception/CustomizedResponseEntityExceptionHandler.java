@@ -1,4 +1,4 @@
-package com.br.inventorrycontrol.productservice.exception;
+package com.br.inventorycontrol.productsales.exception;
 
 import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
@@ -18,7 +18,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     //General exceptions
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ErrorDetails> handleAllException(Exception ex, WebRequest request) throws Exception {
-        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),ex.getMessage(),request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                                                    ex.getMessage(),
+                                                    request.getDescription(false));
 
         return new ResponseEntity<ErrorDetails>(errorDetails,HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -26,16 +28,20 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     //Exception for user not found
     @ExceptionHandler(ItemNotFoundException.class)
     public final ResponseEntity<ErrorDetails> handleUserNotFoundException(Exception ex, WebRequest request) throws Exception {
-        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),ex.getMessage(),request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                                                    ex.getMessage(),
+                                                    request.getDescription(false));
 
         return new ResponseEntity<ErrorDetails>(errorDetails,HttpStatus.NOT_FOUND);
     }
 
-    //Exception for validate methods
+    //Exception for validation methods
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
         MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),ex.getMessage(),request.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                                                    ex.getMessage(),
+                                                    request.getDescription(false));
 
         return new ResponseEntity(errorDetails,HttpStatus.BAD_REQUEST );
 

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.inventorrycontrol.productservice.controller.ProductController;
-import com.br.inventorrycontrol.productservice.exception.UserNotFoundException;
+import com.br.inventorrycontrol.productservice.exception.ItemNotFoundException;
 import com.br.inventorrycontrol.productservice.model.InventoryMovement;
 import com.br.inventorrycontrol.productservice.model.MovementType;
 import com.br.inventorrycontrol.productservice.model.Product;
@@ -67,7 +67,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
         
         if(product.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
 
         //Sending link to go back to all products
@@ -88,7 +88,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
         
         if(product.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
 
         productRepository.deleteById(id);
@@ -103,7 +103,7 @@ public class ProductService {
         Optional<Product> productToUpdate = productRepository.findById(id);
         
         if(productToUpdate.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
 
         productToUpdate.get().setName(product.getName());
@@ -138,7 +138,7 @@ public class ProductService {
         Optional<Product> productToUpdate = productRepository.findById(id);
 
         if(productToUpdate.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
         
         productToUpdate.get().setQuantity(productToUpdate.get().getQuantity() + quantity);
@@ -160,7 +160,7 @@ public class ProductService {
         Optional<Product> productToUpdate = productRepository.findById(id);
 
         if(productToUpdate.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
         
         productToUpdate.get().setQuantity(productToUpdate.get().getQuantity() + inventoryMovement.getQuantity());
@@ -182,7 +182,7 @@ public class ProductService {
         Optional<Product> productToUpdate = productRepository.findById(id);
 
         if(productToUpdate.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
         
         productToUpdate.get().setQuantity(productToUpdate.get().getQuantity() - Math.abs(inventoryMovement.getQuantity()));
@@ -204,7 +204,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
         
         if(product.isPresent() == false){
-            throw new UserNotFoundException("id "+id);
+            throw new ItemNotFoundException("id "+id+" not found");
         }
         System.out.println(product.get().getInventoryMovements());
         return product.get().getInventoryMovements();

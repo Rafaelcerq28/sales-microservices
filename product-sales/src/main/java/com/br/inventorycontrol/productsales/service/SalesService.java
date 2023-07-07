@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.br.inventorycontrol.productsales.exception.ItemNotFoundException;
 import com.br.inventorycontrol.productsales.model.Cart;
 import com.br.inventorycontrol.productsales.model.Checkout;
 import com.br.inventorycontrol.productsales.model.InventoryMovement;
@@ -27,10 +28,9 @@ import com.br.inventorycontrol.productsales.repository.CartRepository;
 
 /*
  * TO DO
- * Criar exceptions com mensagens de erro corretas, fazer validacao dos inputs itens nas models
+
  * ler mais sobre Logger e inserir nos metodos (Nas duas APIs)
- * inserir comentario nos metodos e limpar comentarios desnecessarios
- * VER VIDEOS SOBRE DTO E JAVA RECORDS
+ * VER VIDEOS SOBRE DTO E JAVA RECORDS - VISUALIZADO VIDEO DE DTO
  */
 
 @Service
@@ -42,67 +42,81 @@ public class SalesService {
         this.cartRepository = cartRepository;
     }
 
+
+    /*
+     * Mehtod to insert intens in cart
+     */
     public ResponseEntity<Cart> addToCart(Long userId,Long productId,int quantity){   
         
-
         try {
-            //map com a informacao a ser colocada no {id}
+  
+            /* Checking if this product exist in the product's API */
             HashMap<String, Long> uriVariables = new HashMap<>();
             uriVariables.put("id",productId);
             
-            //ps*** essa funcao e so para validar se o produto existe
-            //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
             ResponseEntity<Product> responseEntity = new RestTemplate().
             getForEntity("http://localhost:8000/products/{id}",
             Product.class, uriVariables);            
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+            throw new ItemNotFoundException("Item "+ productId + "is not found");
         }
 
-        Cart cartToSave = cartRepository.save(new Cart( userId, productId,quantity));
+        Cart cartToSave = cartRepository.save(new Cart(userId, productId,quantity));
 
-        //URI to save the product's location
+        /* URI to save the product's location */
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().
         path("/{id}").buildAndExpand(cartToSave.getId()).toUri();
         
         return ResponseEntity.created(location).body(cartToSave);
     }
     
+    /*
+     * Method to delete itens from cart
+     */
     public ResponseEntity<Cart> deleteFromCart(Long userId, Long productId) {
+         
+        Optional<Cart> cartToDelete = cartRepository.findById(productId);
+
+        if(cartToDelete.isPresent() == false){
+            throw new ItemNotFoundException("Product" + productId + " not found in the cart");
+        }
         
         try {
-            //map com a informacao a ser colocada no {id}
+            /* Checking if this product exist in the product's API */
             HashMap<String, Long> uriVariables = new HashMap<>();
             uriVariables.put("id",productId);
-            
-            //ps*** essa funcao e so para validar se o produto existe
-            //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
+        
             ResponseEntity<Product> responseEntity = new RestTemplate().
             getForEntity("http://localhost:8000/products/{id}",
             Product.class, uriVariables);            
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+        } catch (Exception ex) {
+            throw new ItemNotFoundException("Item "+ productId + "is not found");
         }
         
         cartRepository.DeleteByUserAndProductId(userId,productId);
         return ResponseEntity.noContent().build();
     }
 
+    /*
+     * Get all itens from user's cart
+     */
     public List<Product> getAllFromCart(Long userId){
 
         List<Cart> itensInCart = cartRepository.findByUserId(userId);
         
+        if(itensInCart.isEmpty() == true){
+            throw new ItemNotFoundException("User has no itens in the cart");
+        }
+
         ArrayList<Product> products = new ArrayList<>();
         
         for (Cart cart : itensInCart) {
             ResponseEntity<Product> responseEntity;
             try {
-                //map com a informacao a ser colocada no {id}
+                /* Checking if this product exist in the product's API */
                 HashMap<String, Long> uriVariables = new HashMap<>();
                 uriVariables.put("id",cart.getProductId());
                 
-                //ps*** essa funcao e so para validar se o produto existe
-                //utilizo a funcao RestTemplate para acessar a outra api e armazeno o retorno em uma ResponseEntity
                 responseEntity = new RestTemplate().
                 getForEntity("http://localhost:8000/products/{id}",
                 Product.class, uriVariables);     
@@ -119,7 +133,9 @@ public class SalesService {
         return products;
     }
 
-    //Criar verificacao para informar que o carrinho esta vazio
+    /*
+     * Method to create a checkout list
+     */
     public ResponseEntity<Checkout> checkout(Long userId){
         List<Product> products = getAllFromCart(userId);
         double total = 0;
@@ -134,9 +150,8 @@ public class SalesService {
     }
 
     /*
-     * configurar o metodo do checkout para informar se o produto esta indisponivel
+     * Methodo to finish the selling and update the product's stock value
      */
-
     public String finishAndPay(Long userId){
 
         List<Product> products = getAllFromCart(userId);
@@ -146,9 +161,11 @@ public class SalesService {
             ResponseEntity<InventoryMovement> responseEntity;
             
             try {
+                /*
+                 * This code is to update the product in the product's API
+                 */
                 HttpHeaders headers = new HttpHeaders();                  
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                //map com a informacao a ser colocada no {id}
                 HashMap<String, Long> uriVariables = new HashMap<>();
                 uriVariables.put("id",product.getId());
 
@@ -165,7 +182,6 @@ public class SalesService {
             } catch (Exception e) {
                 return "Failure at product " + product.getName() + " " + product.getName();
             }
-
         }
 
         return "OK";

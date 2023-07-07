@@ -18,6 +18,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -41,17 +43,20 @@ public class Product {
     @Size(min = 5)
     private String brand;
     
-
+    @PositiveOrZero
     private int maxQuantity;
     
     @Min(0)
+    @PositiveOrZero
     private int minQuantity;
     
     @Column(nullable = false)
     private int quantity;
     
+    @PositiveOrZero
     private double weight;
 
+    @Positive
     private double price;
 
     @OneToMany(mappedBy = "product", cascade=CascadeType.ALL, orphanRemoval=true)
