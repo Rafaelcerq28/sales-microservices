@@ -30,6 +30,7 @@ import com.br.inventorycontrol.productsales.repository.CartRepository;
  * TO DO
 
  * ler mais sobre Logger e inserir nos metodos (Nas duas APIs)
+
  * VER VIDEOS SOBRE DTO E JAVA RECORDS - VISUALIZADO VIDEO DE DTO
  */
 
