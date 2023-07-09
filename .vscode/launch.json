@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ApiGatewayApplication",
+            "request": "launch",
+            "mainClass": "br.com.inventorycontrol.apigateway.ApiGatewayApplication"
+        },
+        {
+            "type": "java",
             "name": "ProductSalesApplication",
             "request": "launch",
             "mainClass": "com.br.inventorycontrol.productsales.ProductSalesApplication",
@@ -25,6 +31,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "br.com.inventorycontrol.namingserver.NamingServerApplication",
             "projectName": "naming-server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57302 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=naming-server"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiGatewayApplication<api-gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.inventorycontrol.apigateway.ApiGatewayApplication",
+            "projectName": "api-gateway",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
