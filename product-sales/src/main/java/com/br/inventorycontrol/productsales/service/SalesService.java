@@ -59,7 +59,7 @@ public class SalesService {
             getForEntity("http://localhost:8000/products/{id}",
             Product.class, uriVariables);            
         } catch (Exception e) {
-            throw new ItemNotFoundException("Item "+ productId + "is not found");
+            throw new ItemNotFoundException("Item "+ productId + " is not found");
         }
 
         Cart cartToSave = cartRepository.save(new Cart(userId, productId,quantity));
@@ -91,7 +91,7 @@ public class SalesService {
             getForEntity("http://localhost:8000/products/{id}",
             Product.class, uriVariables);            
         } catch (Exception ex) {
-            throw new ItemNotFoundException("Item "+ productId + "is not found");
+            throw new ItemNotFoundException("Item "+ productId + " is not found");
         }
         
         cartRepository.DeleteByUserAndProductId(userId,productId);

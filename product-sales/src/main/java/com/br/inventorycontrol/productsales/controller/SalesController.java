@@ -14,6 +14,8 @@ import com.br.inventorycontrol.productsales.model.Checkout;
 import com.br.inventorycontrol.productsales.model.Product;
 import com.br.inventorycontrol.productsales.service.SalesService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class SalesController {
     
@@ -27,6 +29,7 @@ public class SalesController {
     //revisar essa url para: /carts/user/{user_id}/produto/{product_id}/quantidade/{quantity} ?
     @PostMapping("/carts/{user_id}/product/{product_id}/quantity/{quantity}")
     public ResponseEntity<Cart> addToCart(
+        @Valid
         @PathVariable(value = "user_id")Long userId, 
         @PathVariable(value="product_id") Long productId,
         @PathVariable(value = "quantity") int quantity){

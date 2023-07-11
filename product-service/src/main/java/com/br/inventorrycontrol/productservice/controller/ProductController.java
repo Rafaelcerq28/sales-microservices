@@ -18,6 +18,8 @@ import com.br.inventorrycontrol.productservice.model.InventoryMovement;
 import com.br.inventorrycontrol.productservice.model.Product;
 import com.br.inventorrycontrol.productservice.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class ProductController {
     
@@ -29,7 +31,7 @@ public class ProductController {
     //save
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product){
         return productService.createProduct(product);
     }
     //get all
@@ -63,27 +65,27 @@ public class ProductController {
     //update one
     @PutMapping("/products/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @RequestBody Product product){
+    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody Product product){
         return productService.updateProduct(product,id);
     }
 
     //increasing inventory giving a description
     @PutMapping("/products/{id}/increase-stock")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Product> increaseProductStock(@PathVariable(value = "id") Long id,@RequestBody InventoryMovement inventoryMovement){
+    public ResponseEntity<Product> increaseProductStock(@PathVariable(value = "id") Long id, @Valid @RequestBody InventoryMovement inventoryMovement){
         return productService.increaseProductStock(id,inventoryMovement);
     }
     //increasing inventory
     @PutMapping("/products/{id}/increase-stock/{quantity}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Product> increaseProductStock(@PathVariable(value = "id") Long id, @PathVariable(value = "quantity") int quantity){
+    public ResponseEntity<Product> increaseProductStock(@PathVariable(value = "id") Long id, @Valid @PathVariable(value = "quantity") int quantity){
         return productService.increaseProductStock(id,quantity);
     }
 
     //Decreasing inventory
     @PutMapping("/products/{id}/decrease-stock")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Product> decreaseProductStock(@PathVariable(value = "id") Long id,@RequestBody InventoryMovement inventoryMovement){
+    public ResponseEntity<Product> decreaseProductStock(@PathVariable(value = "id") Long id, @Valid @RequestBody InventoryMovement inventoryMovement){
         return productService.decreaseProductStock(id,inventoryMovement);
     }
 
