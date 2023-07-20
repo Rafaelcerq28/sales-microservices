@@ -24,7 +24,7 @@ public class SalesController {
         this.salesService = salesService;
     }
 
-    SalesService salesService;
+    private SalesService salesService;
 
     //revisar essa url para: /carts/user/{user_id}/produto/{product_id}/quantidade/{quantity} ?
     @PostMapping("/carts/{user_id}/product/{product_id}/quantity/{quantity}")
