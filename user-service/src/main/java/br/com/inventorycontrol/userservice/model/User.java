@@ -34,10 +34,6 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Size(min = 8,message = "name should have at least 8 characters")
-    @Column(nullable = false)
-    private String password;
-
     @Positive
     @Column(nullable = false)
     private int phone;
@@ -46,13 +42,12 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name, int age, String email, String username, String password, int phone) {
+    public User(long id, String name, int age, String email, String username, int phone) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
         this.username = username;
-        this.password = password;
         this.phone = phone;
     }
 
@@ -94,14 +89,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getPhone() {

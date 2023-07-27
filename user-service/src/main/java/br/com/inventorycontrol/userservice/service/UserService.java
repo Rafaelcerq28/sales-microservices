@@ -1,6 +1,7 @@
 package br.com.inventorycontrol.userservice.service;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,16 @@ public class UserService {
                         path("/{id}").buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(location).body(savedUser);
     }
+
+    public ResponseEntity<User> findUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if(user.isPresent() == false){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(user.get());
+    }
     
-    
+
 
 }

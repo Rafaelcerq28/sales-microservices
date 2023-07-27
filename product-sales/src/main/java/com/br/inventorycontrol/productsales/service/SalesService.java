@@ -23,6 +23,7 @@ import com.br.inventorycontrol.productsales.model.Cart;
 import com.br.inventorycontrol.productsales.model.Checkout;
 import com.br.inventorycontrol.productsales.model.InventoryMovement;
 import com.br.inventorycontrol.productsales.model.Product;
+import com.br.inventorycontrol.productsales.model.User;
 import com.br.inventorycontrol.productsales.repository.CartRepository;
 
 
@@ -61,6 +62,20 @@ public class SalesService {
         } catch (Exception e) {
             throw new ItemNotFoundException("Item "+ productId + " is not found");
         }
+
+        try {
+  
+            /* Checking if this user exist in the user's API */
+            HashMap<String, Long> uriVariables = new HashMap<>();
+            uriVariables.put("id",userId);
+            
+            ResponseEntity<User> responseEntity = new RestTemplate().
+            getForEntity("http://localhost:8765/users/{id}",
+            User.class, uriVariables);            
+        } catch (Exception e) {
+            throw new ItemNotFoundException("User "+ userId + " is not found");
+        }        
+
 
         Cart cartToSave = cartRepository.save(new Cart(userId, productId,quantity));
 
