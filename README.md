@@ -1,4 +1,4 @@
-# Product Store - Microservices with Spring Boot
+# Product Sales - Microservices with Spring Boot
 
 This project is a microservices-based REST API for a product store, developed using Java. It leverages Spring Boot, Spring Cloud, Eureka Naming Server, and Spring Cloud Gateway to provide features like product registration, user registration, and sales processing.
 
@@ -18,7 +18,7 @@ Before running the microservices, make sure you have the following prerequisites
 
 - Java 8 or above
 - Maven
-- 
+
 ## Running the Project
 
 1. Clone this repository to your local machine:
@@ -35,36 +35,41 @@ Before running the microservices, make sure you have the following prerequisites
 
 3. Run each microservice individually:
    
-    1. naming-server
-    2. api-gateway
-    3. product-service
-    4. user-service
-    5. product-sales
+   1. naming-server
+   2. api-gateway
+   3. product-service
+   4. user-service
+   5. product-sales
 
-   - To run a microservice individually, navigate to the microservice's folder and use Maven:
+- To run a microservice individually, navigate to the microservice's folder and use Maven:
 
 Ex:
-     ```bash
-     cd naming-server
-     mvn spring-boot:run
-     ```
+   ```
+   cd naming-server
+   mvn spring-boot:run
+   ```
 - The other microservices can be started individually following the same pattern.
 
 5. The microservices will be available on the following ports:
 
-   - Product Registration: http://localhost:8081
-   - User Registration: http://localhost:8082
-   - Sales: http://localhost:8083
+   - Product Registration: http://localhost:8000
+   - User Registration: http://localhost:8200 
+   - Sales: http://localhost:8100 
    - Eureka Naming Server: http://localhost:8761
    - Spring Cloud Gateway: http://localhost:8765
+  
+   - You can also access them through the gateway:
+      - http://localhost:8765/carts
+      - http://localhost:8765/products
+      - http://localhost:8765/users
 
 ## API Documentation
 
 For details about the endpoints and how to use the API, refer to the documentation available in each microservice. For example:
 
-- Product Registration Documentation: http://localhost:8081/swagger-ui.html
-- User Registration Documentation: http://localhost:8082/swagger-ui.html
-- Sales API Documentation: http://localhost:8083/swagger-ui.html
+- Product Registration Documentation: http://localhost:8000/swagger-ui.html
+- User Registration Documentation: http://localhost:8200/swagger-ui.html
+- Sales API Documentation: http://localhost:8100/swagger-ui.html
 
 ## Contributing
 
