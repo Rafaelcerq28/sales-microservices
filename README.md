@@ -1,4 +1,4 @@
-# Product Store - Microservices with Spring Boot
+# Product Sales - Microservices with Spring Boot
 
 This project is a microservices-based REST API for a product store, developed using Java. It leverages Spring Boot, Spring Cloud, Eureka Naming Server, and Spring Cloud Gateway to provide features like product registration, user registration, and sales processing.
 
