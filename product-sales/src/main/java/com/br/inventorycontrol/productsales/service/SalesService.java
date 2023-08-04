@@ -26,15 +26,6 @@ import com.br.inventorycontrol.productsales.model.Product;
 import com.br.inventorycontrol.productsales.model.User;
 import com.br.inventorycontrol.productsales.repository.CartRepository;
 
-
-/*
- * TO DO
-
- * ler mais sobre Logger e inserir nos metodos (Nas duas APIs)
-
- * VER VIDEOS SOBRE DTO E JAVA RECORDS - VISUALIZADO VIDEO DE DTO
- */
-
 @Service
 public class SalesService {
 
